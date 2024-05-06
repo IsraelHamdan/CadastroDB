@@ -1,13 +1,25 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
+
 package cadastrodb.model;
 
-/**
- *
- * @author Israe
- */
+
 public class PessoaJuridica extends Pessoa {
+    private String cnpj; 
     
+    public PessoaJuridica (String cnpj) {
+        super(); 
+        this.cnpj = cnpj;
+    } 
+
+    public String getCnpj() {
+        return cnpj;
+    }
+
+    public void setCnpj(String cnpj) {
+        this.cnpj = cnpj;
+    }
+    
+    public String exibir() {
+        super.exibir(); 
+        return "CNPJ" + this.cnpj;
+    }
 }

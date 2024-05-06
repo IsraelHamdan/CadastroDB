@@ -1,0 +1,20 @@
+# Default ignored files
+/shelf/
+/workspace.xml
+# Datasource local storage ignored files
+/dataSources/
+/dataSources.local.xml
+*.el
+*.ipr
+*.iws
+*.pif
+*.snap
+.ant.properties
+.classpath 
+.DS_Store
+.project
+.settins
+bin
+apache-ant-1.*
+nbproject 
+sqljdbc_12.6
