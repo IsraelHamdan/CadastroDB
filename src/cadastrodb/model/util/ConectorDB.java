@@ -34,6 +34,25 @@ public class ConectorDB {
         return statement.executeQuery(sql);
     }
     
+    // fecha o PreparedStatement
+    public void close(PreparedStatement ps) {
+        try {
+           if(ps != null && !ps.isClosed()) {
+               ps.close();
+           }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } 
+    }
+    // metodo close para fechar o result
+    public void close (ResultSet rs) {
+        try {
+            if(rs != null && !rs.isClosed()) rs.clearWarnings();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+    
     public void close() {
         try {
             if(conection != null && !conection.isClosed()) {
