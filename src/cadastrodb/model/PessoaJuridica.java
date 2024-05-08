@@ -9,6 +9,10 @@ public class PessoaJuridica extends Pessoa {
         super(); 
         this.cnpj = cnpj;
     } 
+    
+    public PessoaJuridica() {
+        
+    }
 
     public String getCnpj() {
         return cnpj;

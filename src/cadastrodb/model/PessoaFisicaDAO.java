@@ -10,7 +10,7 @@ import java.util.List;
 public class PessoaFisicaDAO {
     private PessoaFisica pf;
     private Connection connection;
-    
+
     private ResultSet rs;
 
     private List<PessoaFisica> pessoas;
@@ -22,7 +22,7 @@ public class PessoaFisicaDAO {
     }
 
     public PessoaFisica getPessoa(int id) throws SQLException {
-        try (PreparedStatement ps = connection.prepareStatement("SELECT * FROM PessoaFisica WHERE id = ?") ) {
+        try (PreparedStatement ps = connection.prepareStatement("SELECT * FROM PessoasFisicas WHERE id = ?")) {
             ps.setInt(1, id);
             rs = ps.executeQuery();
             if (rs.next()) {
@@ -37,7 +37,7 @@ public class PessoaFisicaDAO {
     }
 
     public List<PessoaFisica> getPessoas() throws SQLException {
-        try (PreparedStatement ps = connection.prepareStatement("SELECT * FROM PessoaFisica")) {
+        try (PreparedStatement ps = connection.prepareStatement("SELECT * FROM PessoasFisicas")) {
             rs = ps.executeQuery();
             while (rs.next()) {
                 pf.setId(rs.getInt("id"));
@@ -56,7 +56,6 @@ public class PessoaFisicaDAO {
         return pessoas;
     }
 
-
     public void incluiPessoa(PessoaFisica pessoa) throws SQLException {
         String queryPessoa = "INSERT INTO Pesooas(nome) VALUES(?)";
         String queryPf = "INSERT INTO PessoasFisicas(id, cpf) VALUES(?,?)";
@@ -67,7 +66,6 @@ public class PessoaFisicaDAO {
 
             psPessoa.setInt(1, pessoa.getId());
             psPessoa.setString(1, pessoa.getNome());
-            psPessoaFisica.setString(1, pessoa.getCpf());
             psPessoaFisica.setString(1, pessoa.getCpf());
             psPessoaFisica.setString(1, pessoa.getCidade());
             psPessoaFisica.setString(1, pessoa.getLogradouro());
@@ -84,38 +82,39 @@ public class PessoaFisicaDAO {
         } finally {
             connection.setAutoCommit(true);
         }
-        
+
     }
-    
+
     public void alterarPessoa(PessoaFisica pessoa) throws SQLException {
-        String query = "UPDATE PessoasFisicas SET nome = ?, cpf = ? WHERE idPesspaFisica = ?";
+        String query = "UPDATE PessoasFisicas SET nome = ?, cpf = ? WHERE idPessoaFisica = ?";
         try (PreparedStatement ps = connection.prepareStatement(query)) {
             ps.setInt(1, pessoa.getId());
             ps.setString(1, pessoa.getNome());
             ps.setString(1, pessoa.getCpf());
-            ps.setString(1, pessoa.getLogradouro()); 
+            ps.setString(1, pessoa.getLogradouro());
             ps.setString(1, pessoa.getCidade());
             ps.setString(1, pessoa.getEstado());
             ps.setString(1, pessoa.getTelefone());
             ps.setString(1, pessoa.getEmail());
-            
+
         } catch (SQLException e) {
             e.printStackTrace();
         }
     }
-    
-   public void excluirPessoa(int id) throws SQLException {
-       try (PreparedStatement ps = connection.prepareStatement("DELETE FROM PessoasFisicas WHERE idPessoaFisica = ?")){
-           ps.setInt(1, id);
-           ps.executeUpdate();
-       } catch (SQLException e) {
-           e.printStackTrace();
-       }
-       try (PreparedStatement ps = connection.prepareStatement("DELETE FROM Pessoas WHERE idPessoa = ?")){
-           ps.setInt(1, id); 
-           ps.executeUpdate();
-       } catch (SQLException e) {
-           e.printStackTrace();
-       }
-   }
+
+    public void excluirPessoa(int id) throws SQLException {
+        try (PreparedStatement ps = connection
+                .prepareStatement("DELETE FROM PessoasFisicas WHERE idPessoaFisica = ?")) {
+            ps.setInt(1, id);
+            ps.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        try (PreparedStatement ps = connection.prepareStatement("DELETE FROM Pessoas WHERE idPessoa = ?")) {
+            ps.setInt(1, id);
+            ps.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
 }
