@@ -8,4 +8,5 @@ public interface PessoaDAO<T> {
     void incluir(T pessoa);
     void alerar(T pessoa);
     void excluir(int id);
+
 }
