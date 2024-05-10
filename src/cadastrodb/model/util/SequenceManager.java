@@ -7,14 +7,13 @@ public class SequenceManager {
     public SequenceManager(Connection connection) {
         this.connection = connection;
     }
-    
+    static int nextValue = 0; 
     public int getValue(String sequenceName) throws SQLException {
-        int nextValue = 0; 
+        
         PreparedStatement ps = null; 
         ResultSet rs = null;
         try {
-            String query = "SELECT NEXT VALUE FOR" + sequenceName; 
-            ps = connection.prepareStatement(query);
+            ps = connection.prepareStatement("SELECT NEXT VALUE FOR seq_pessoa");
             rs = ps.executeQuery(); 
             if(rs.next()) {
                 nextValue = rs.getInt(1);
@@ -25,6 +24,7 @@ public class SequenceManager {
         return nextValue;
         
     }
+    
     
     private void clolseResoureces(ResultSet rs, PreparedStatement ps) {
         try {
@@ -45,5 +45,5 @@ public class SequenceManager {
             e.printStackTrace();
         }
     }
-   
+
 }

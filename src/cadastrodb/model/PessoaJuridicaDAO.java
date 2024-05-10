@@ -8,13 +8,21 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import cadastrodb.model.util.ConectorDB;
+import cadastrodb.model.util.SequenceManager;
+
 public class PessoaJuridicaDAO {
     private Connection connection;
     private PessoaJuridica pj;
     private ResultSet rs;
     private List<PessoaJuridica> pessoasJuridicas;
 
-    public void PessoaJuridicaDAO(Connection connection) {
+    private ConectorDB conector;
+    private SequenceManager sequence;
+
+    public void PessoaJuridicaDAO(Connection connection, ConectorDB conector, SequenceManager seqence) {
+        this.conector = conector;
+        this.sequence = seqence;
         this.connection = connection;
         pj = new PessoaJuridica();
         pessoasJuridicas = new ArrayList();
@@ -31,6 +39,8 @@ public class PessoaJuridicaDAO {
             }
         } catch (SQLException e) {
             e.printStackTrace();
+        } finally {
+            conector.close();
         }
         return null;
     }
@@ -51,6 +61,8 @@ public class PessoaJuridicaDAO {
             }
         } catch (SQLException e) {
             e.printStackTrace();
+        } finally {
+            conector.close();
         }
         return pessoasJuridicas;
     }
@@ -63,7 +75,7 @@ public class PessoaJuridicaDAO {
                 PreparedStatement psPessoaJuridica = connection.prepareStatement(queryPj)) {
             connection.setAutoCommit(false);
 
-            psPessoa.setInt(1, pessoa.getId());
+            psPessoa.setInt(1, sequence.getValue("seq_pessoa"));
             psPessoa.setString(1, pessoa.getNome());
             psPessoaJuridica.setString(1, pessoa.getCnpj());
             psPessoaJuridica.setString(1, pessoa.getCidade());

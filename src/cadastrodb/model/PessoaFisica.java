@@ -5,7 +5,7 @@ public class PessoaFisica extends Pessoa {
     private String cpf; 
 
     
-    public PessoaFisica (String cpf, int id, String nome) {
+    public PessoaFisica (int id, String nome, String cpf) {
         super();
         setId(id); 
         

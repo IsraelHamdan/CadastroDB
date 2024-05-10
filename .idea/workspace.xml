@@ -5,12 +5,16 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="cad3dc25-70cb-4d3d-b7cb-268a3bdec060" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/CadastroDB.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/CadastroDB.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources.local.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources.local.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/dataSources/f14906bc-4a88-4e7b-827f-0fce6b4ffc96.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/f14906bc-4a88-4e7b-827f-0fce6b4ffc96.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/cadastrodb/model/PessoaDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/cadastrodb/model/PessoaDAO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/nbproject/private/private.xml" beforeDir="false" afterPath="$PROJECT_DIR$/nbproject/private/private.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/cadastrodb/CadastroDB.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/cadastrodb/CadastroDB.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/cadastrodb/model/PessoaFisica.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/cadastrodb/model/PessoaFisica.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/cadastrodb/model/PessoaFisicaDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/cadastrodb/model/PessoaFisicaDAO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/cadastrodb/model/PessoaJuridicaDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/cadastrodb/model/PessoaJuridicaDAO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/cadastrodb/model/util/ConectorDB.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/cadastrodb/model/util/ConectorDB.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/cadastrodb/model/util/SequenceManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/cadastrodb/model/util/SequenceManager.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -57,6 +61,11 @@
     ]
   }
 }</component>
+  <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\Israe\OneDrive\Documentos\desenvolvimento\CadastroDB\src\cadastrodb" />
+    </key>
+  </component>
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
@@ -87,6 +96,8 @@
       <workItem from="1715111281527" duration="1337000" />
       <workItem from="1715125056935" duration="4000" />
       <workItem from="1715131286700" duration="10000" />
+      <workItem from="1715220587995" duration="55000" />
+      <workItem from="1715289958562" duration="3715000" />
     </task>
     <servers />
   </component>

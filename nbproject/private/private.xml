@@ -4,9 +4,10 @@
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
             <file>file:/C:/Users/Israe/OneDrive/Documentos/desenvolvimento/CadastroDB/src/cadastrodb/model/PessoaFisica.java</file>
+            <file>file:/C:/Users/Israe/OneDrive/Documentos/desenvolvimento/CadastroDB/src/cadastrodb/model/CadastroDBTeste.java</file>
+            <file>file:/C:/Users/Israe/OneDrive/Documentos/desenvolvimento/CadastroDB/src/cadastrodb/model/util/ConectorDB.java</file>
             <file>file:/C:/Users/Israe/OneDrive/Documentos/desenvolvimento/CadastroDB/src/cadastrodb/model/Pessoa.java</file>
             <file>file:/C:/Users/Israe/OneDrive/Documentos/desenvolvimento/CadastroDB/src/cadastrodb/model/PessoaFisicaDAO.java</file>
-            <file>file:/C:/Users/Israe/OneDrive/Documentos/desenvolvimento/CadastroDB/src/cadastrodb/model/PessoaDAO.java</file>
         </group>
     </open-files>
 </project-private>

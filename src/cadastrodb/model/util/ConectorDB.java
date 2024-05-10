@@ -3,7 +3,7 @@ import java.sql.*;
 import java.util.Properties;
 
 public class ConectorDB {
-    private static final String URL = "jdbc:sqlserver://localhost:1433;databaseName=loja" ; 
+    private static final String URL = "jdbc:sqlserver://localhost:1433;databaseName=loja;encrypt=true;trustServerCertificate=true" ; 
     private static final String USERNAME = "loja";
     private static final String SENHA = "loja";
     private Connection conection; 
@@ -15,14 +15,16 @@ public class ConectorDB {
             props = new Properties(); 
             props.setProperty("user", USERNAME);
             props.setProperty("password", SENHA);
-            conection = DriverManager.getConnection(URL, props);
+            props.setProperty("encrypt", "true");
+            props.setProperty("trustServerCertificate", "true");
+            conection = DriverManager.getConnection(URL, props);    
         } catch (ClassNotFoundException | SQLException e) {
             e.printStackTrace();
         }
     }
-    
-    public Connection getConnection() {
-        return conection;
+        
+    public static Connection getConnection() throws SQLException {
+        return DriverManager.getConnection(URL, USERNAME, SENHA);
     }
     
     public PreparedStatement getPreparedStatement(String sql) throws SQLException {

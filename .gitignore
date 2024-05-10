@@ -18,3 +18,5 @@ sqljdbc_12.6
 .settins
 bin
 apache-ant-1.*
+/build/
+/dist/
