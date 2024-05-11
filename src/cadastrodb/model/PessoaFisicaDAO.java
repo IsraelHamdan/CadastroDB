@@ -2,6 +2,7 @@ package cadastrodb.model;
 
 import cadastrodb.model.util.ConectorDB;
 import cadastrodb.model.util.SequenceManager;
+import java.sql.Connection;
 import java.sql.PreparedStatement;                                                                                                          
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -14,15 +15,14 @@ public class PessoaFisicaDAO {
     private ResultSet rs;
     private ConectorDB connector; 
     private SequenceManager sequence;
+    
 
     private List<PessoaFisica> pessoas;
 
-    public PessoaFisicaDAO(ConectorDB connector, SequenceManager sequence) {
-        this.connector = connector; 
-        this.sequence = sequence;
-    }
+
 
     public PessoaFisicaDAO() {
+        sequence = new SequenceManager();
         connector = new ConectorDB();         
         pf = new PessoaFisica();
         pessoas = new ArrayList<>();
@@ -68,45 +68,48 @@ public class PessoaFisicaDAO {
     }
 
     public void incluiPessoa(PessoaFisica pessoa) throws SQLException {
-        String queryPessoa = "INSERT INTO Pesooas(nome) VALUES(?)";
+        String queryPessoa = "INSERT INTO Pessoas(idPessoa, nome, logradouro, cidade, estado, telefone, email) VALUES(?,?,?,?,?,?,?)";
         String queryPf = "INSERT INTO PessoasFisicas(idPessoaFisica, cpf) VALUES(?,?)";
 
         try (PreparedStatement psPessoa = connector.getConnection().prepareStatement(queryPessoa);
-                PreparedStatement psPessoaFisica = connector.getConnection().prepareStatement(queryPf)) {
-                      
-            psPessoa.setInt(1, sequence.getValue("seq_pessoa"));
-            psPessoa.setString(1, pessoa.getNome());
-            psPessoaFisica.setString(1, pessoa.getCpf());
-            psPessoaFisica.setString(1, pessoa.getCidade());
-            psPessoaFisica.setString(1, pessoa.getLogradouro());
-            psPessoaFisica.setString(1, pessoa.getEstado());
-            psPessoaFisica.setString(1, pessoa.getTelefone());
-            psPessoaFisica.setString(1, pessoa.getEmail());
-
+             PreparedStatement psPessoaFisica = connector.getConnection().prepareStatement(queryPf)) {
+           
+            psPessoa.setInt(1, pessoa.getId());
+            psPessoa.setString(2, pessoa.getNome());
+            psPessoa.setString(3, pessoa.getLogradouro());
+            psPessoa.setString(4, pessoa.getCidade());
+            psPessoa.setString(5, pessoa.getEstado());
+            psPessoa.setString(6, pessoa.getTelefone());
+            psPessoa.setString(7, pessoa.getEmail()); 
+            psPessoa.executeUpdate();
+            
+            psPessoaFisica.setInt(1, pessoa.getId());
+            psPessoaFisica.setString(2, pessoa.getCpf());
             psPessoaFisica.executeUpdate();
-
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
             connector.close();
         }
-
     }
 
     public void alterarPessoa(PessoaFisica pessoa) throws SQLException {
-        String query = "UPDATE PessoasFisicas SET nome = ?, cpf = ? WHERE idPessoaFisica = ?";
-        try (PreparedStatement ps = connector.getConnection().prepareStatement(query)) {
-            ps.setInt(1, pessoa.getId());
+        String query = "UPDATE Pessoas SET nome = ? WHERE idPessoa = ?";
+        String queryCpf = "UPDATE PessoasFisicas SET cpf = ? WHERE idPessoaFisica = ?";
+        try (PreparedStatement ps = connector.getConnection().prepareStatement(query); 
+             PreparedStatement psCpf = connector.getConnection().prepareStatement(queryCpf)) {
+            
+            System.out.println(pessoa.getNome());
+            System.out.println(pessoa.getId());
             ps.setString(1, pessoa.getNome());
-            ps.setString(1, pessoa.getCpf());
-            ps.setString(1, pessoa.getLogradouro());
-            ps.setString(1, pessoa.getCidade());
-            ps.setString(1, pessoa.getEstado());
-            ps.setString(1, pessoa.getTelefone());
-            ps.setString(1, pessoa.getEmail());
-
+            ps.setInt(2, pessoa.getId());
+            ps.executeUpdate();
+            
+            psCpf.setString(1, pessoa.getCpf());
+            psCpf.setInt(2, pessoa.getId());
+            psCpf.executeUpdate();
+            
         } catch (SQLException e) {
-            e.printStackTrace();
         }
     }
 

@@ -10,6 +10,9 @@ public class Pessoa {
     private String telefone;
     private String email;
     
+    public Pessoa() {
+        
+    }
     public Pessoa(int id, String nome, String logradouro, String cidade, 
             String estado, String telefone, String email) {
         this.id = id;
@@ -20,6 +23,7 @@ public class Pessoa {
         this.telefone = telefone;
         this.email = email;
     }
+    
 
     public int getId() {
         return id;
@@ -78,9 +82,7 @@ public class Pessoa {
     }
 
     
-    public Pessoa() {
-        
-    }
+
 
     
     public String exibir() {
