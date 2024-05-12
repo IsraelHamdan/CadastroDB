@@ -7,7 +7,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.sql.PreparedStatement;
-import java.util.HashSet;
+
 
 public class PessoaJuridicaDAO {
     private PessoaJuridica pj; 
@@ -26,8 +26,10 @@ public class PessoaJuridicaDAO {
     }
     
     public PessoaJuridica getPessoaJuridica(int id) throws SQLException {
+        String query = "Select PJ.idPJ, PJ.CNPJ, P.Nome, P.Logradouro, P.Cidade, P.Estado, P.Telefone, P.Email " +
+	"From PessoasJuridicas PJ JOIN Pessoas P ON PJ.idPJ = P.idPessoa WHERE idPJ = ?";
         try (PreparedStatement ps = connector.getConnection()
-                .prepareStatement("SELECT * FROM PessoasJuridicas WHERE idPj = ?")) {
+                .prepareStatement(query)) {
             ps.setInt(1, id);
             rs = ps.executeQuery();
             if (rs.next()) {
@@ -44,7 +46,10 @@ public class PessoaJuridicaDAO {
     } 
     
     public List<PessoaJuridica> getPessoasJuridica() throws SQLException {
-        try (PreparedStatement ps = connector.getConnection().prepareStatement("SELECT * FROM PessoasJuridicas")) {
+        String query = "Select PJ.idPJ, PJ.CNPJ, P.Nome, P.Logradouro, P.Cidade, P.Estado, P.Telefone, P.Email " +
+	"From PessoasJuridicas PJ JOIN Pessoas P ON PJ.idPJ = P.idPessoa";
+        
+        try (PreparedStatement ps = connector.getConnection().prepareStatement(query)) {
             rs = ps.executeQuery(); 
             while(rs.next()) {
                 pj.setId(rs.getInt("idPj"));
@@ -65,13 +70,13 @@ public class PessoaJuridicaDAO {
         return pessoas;
     }
     
-    public void incluirPessoaJuridica(PessoaJuridica pessoa) throws SQLException {
+        public void incluiPessoaJuridica(PessoaJuridica pessoa) throws SQLException {
         String queryPessoa = "INSERT INTO Pessoas(idPessoa, Nome, Logradouro, Cidade, Estado, Telefone, Email) VALUES(?,?,?,?,?,?,?)";
-        String queryPj = "INSERT INTO PessoasJuridicas(idPj, CNPJ) VALUES(?,?)";
-        
-        try (PreparedStatement psPessoa = connector.getConnection().prepareStatement(queryPessoa) ; 
-             PreparedStatement psPessoaJuridica = connector.getConnection().prepareStatement(queryPj) ) {
-            
+        String queryCnpj = "INSERT INTO PessoasJuridicas(idPJ, CNPJ) VALUES(?,?)";
+
+        try (PreparedStatement psPessoa = connector.getConnection().prepareStatement(queryPessoa);
+                PreparedStatement psPj = connector.getConnection().prepareStatement(queryCnpj)) {
+
             psPessoa.setInt(1, pessoa.getId());
             psPessoa.setString(2, pessoa.getNome());
             psPessoa.setString(3, pessoa.getLogradouro());
@@ -80,38 +85,39 @@ public class PessoaJuridicaDAO {
             psPessoa.setString(6, pessoa.getTelefone());
             psPessoa.setString(7, pessoa.getEmail());
             psPessoa.executeUpdate();
-            
-            psPessoaJuridica.setInt(1, pessoa.getId());
-            psPessoaJuridica.setString(2, pessoa.getCnpj());
-            psPessoaJuridica.executeUpdate(); 
+
+            psPj.setInt(1, pessoa.getId());
+            psPj.setString(2, pessoa.getCnpj());
+            psPj.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
             connector.close();
         }
     }
-    
-    public PessoaJuridica alterarPessoaJuridica(PessoaJuridica pessoa) throws SQLException {
+
+    public void alterarPessoaJuridica(PessoaJuridica pessoa) throws SQLException {
         String query = "UPDATE Pessoas SET Nome = ? WHERE idPessoa = ?";
-        String queryCnpj = "UPDATE PessoasJuridica SET CNPJ = ? WHERE idPj = ?";
-        
-        try(PreparedStatement ps = connector.getConnection().prepareStatement(query) ; 
-            PreparedStatement psCnpj = connector.getConnection().prepareStatement(queryCnpj)) {
+        String queryCnpj = "UPDATE PessoasJuridicas SET CNPJ = ? WHERE idPJ = ?";
+        try (PreparedStatement ps = connector.getConnection().prepareStatement(query); 
+             PreparedStatement psCNPj = connector.getConnection().prepareStatement(queryCnpj)) {
             
+            System.out.println(pessoa.getNome());
+            System.out.println(pessoa.getId());
             ps.setString(1, pessoa.getNome());
             ps.setInt(2, pessoa.getId());
-            ps.executeUpdate(); 
+            ps.executeUpdate();
             
-            psCnpj.setString(1, pessoa.getCnpj());
-            psCnpj.setInt(2, pessoa.getId());
-            psCnpj.executeUpdate(); 
+            psCNPj.setString(1, pessoa.getCnpj());
+            psCNPj.setInt(2, pessoa.getId());
+            psCNPj.executeUpdate();
             
-            return pj;
+        } catch (SQLException e) {
         }
     }
     
     public void excluirPessoaJuridica(int id) throws SQLException {
-        try(PreparedStatement ps = connector.getConnection().prepareStatement("DELETE FROM PessoaJuridica WHERE idPj = ?"); 
+        try(PreparedStatement ps = connector.getConnection().prepareStatement("DELETE FROM PessoasJuridicas WHERE idPj = ?"); 
             PreparedStatement pjDelete = connector.getConnection().prepareStatement("DELETE FROM Pessoas WHERE idPessoa = ?") ) {
             
             //excluindo da tabela de pessoas 

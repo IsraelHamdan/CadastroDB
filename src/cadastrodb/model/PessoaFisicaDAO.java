@@ -72,7 +72,7 @@ public class PessoaFisicaDAO {
         return pessoas;
     }
 
-    public void incluiPessoa(PessoaFisica pessoa) throws SQLException {
+     public void incluiPessoa(PessoaFisica pessoa) throws SQLException {
         String queryPessoa = "INSERT INTO Pessoas(idPessoa, Nome, Logradouro, Cidade, Estado, Telefone, Email) VALUES(?,?,?,?,?,?,?)";
         String queryPf = "INSERT INTO PessoasFisicas(idPessoaFisica, cpf) VALUES(?,?)";
 
@@ -117,6 +117,7 @@ public class PessoaFisicaDAO {
         } catch (SQLException e) {
         }
     }
+
 
     public void excluirPessoa(int id) throws SQLException {    
         try(PreparedStatement ps = connector.getConnection().prepareStatement("DELETE FROM PessoasFisicas WHERE idPessoaFisica = ?"); 

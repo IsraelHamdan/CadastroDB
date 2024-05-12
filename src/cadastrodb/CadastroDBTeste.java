@@ -41,13 +41,24 @@ public class CadastroDBTeste {
         int seqM = seq.getValue(sequencia);
         
         pj = new PessoaJuridica(seqM, "ZPT", "complexo", "Belém", "PA", "91983662660", "ZPT@zptEmplements.com", "45814735812");
-        pjDAO.incluirPessoaJuridica(pj);
+        pjDAO.incluiPessoaJuridica(pj);
         System.out.println(pj.exibir());
         return pj;
     }
     
     private List<PessoaFisica> buscaPessoaFisica() throws SQLException {
+        for(PessoaFisica pf: pfDAO.getPessoas()) {
+            System.out.println(pf.exibir());
+        }
         return pfDAO.getPessoas();
+        
+    }
+    
+    private List<PessoaJuridica> buscaPessoaJuridica()throws SQLException {
+        for(PessoaJuridica pj : pjDAO.getPessoasJuridica()) {
+            System.out.println(pj.exibir());
+        }
+        return pjDAO.getPessoasJuridica();
     }
     
     private  PessoaFisica testeDeAlteracao() throws SQLException {
@@ -76,14 +87,15 @@ public class CadastroDBTeste {
     }
     
     public void run( ) throws SQLException {
-//        testeDeInclusao(); 
-//        testeDeAlteracao();
-//        testeDeExclusao();
-//        buscaPessoaFisica();
+        testeDeInclusao(); 
+        testeDeAlteracao();
+        testeDeExclusao();
+        buscaPessoaFisica();
         
         testeDeInclusaoDaPessoaJuridica();
-//        testeDeAlteracaoDaPessoaJuridica();
-//        testeDeExclusaoDaPessoaJuridica();
+        testeDeAlteracaoDaPessoaJuridica();
+        testeDeExclusaoDaPessoaJuridica();
+        buscaPessoaJuridica();
     }
     
     public static void main(String[] args) throws SQLException {
