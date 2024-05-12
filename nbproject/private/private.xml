@@ -5,7 +5,7 @@
             <url>src/cadastrodb/model/PessoaJuridicaDAO.java</url>
             <bookmark id="1">
                 <name/>
-                <line>13</line>
+                <line>11</line>
                 <key/>
             </bookmark>
         </file>
@@ -14,8 +14,7 @@
         <group>
             <file>file:/C:/Users/Israe/OneDrive/Documentos/desenvolvimento/CadastroDB/src/cadastrodb/model/util/SequenceManager.java</file>
             <file>file:/C:/Users/Israe/OneDrive/Documentos/desenvolvimento/CadastroDB/src/cadastrodb/model/PessoaJuridicaDAO.java</file>
-            <file>file:/C:/Users/Israe/OneDrive/Documentos/desenvolvimento/CadastroDB/src/cadastrodb/model/PessoaFisica.java</file>
-            <file>file:/C:/Users/Israe/OneDrive/Documentos/desenvolvimento/CadastroDB/src/cadastrodb/model/Pessoa.java</file>
+            <file>file:/C:/Users/Israe/OneDrive/Documentos/desenvolvimento/CadastroDB/src/cadastrodb/CadastroDBTeste.java</file>
             <file>file:/C:/Users/Israe/OneDrive/Documentos/desenvolvimento/CadastroDB/src/cadastrodb/model/PessoaFisicaDAO.java</file>
         </group>
     </open-files>
