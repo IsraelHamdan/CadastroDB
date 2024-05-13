@@ -96,6 +96,8 @@ public class Menu {
                 System.out.println("Insira o cpf");
                 cpf = sc.next();
                 
+                sc.close();
+                
                 pf = new PessoaFisica(seqM, nome, logradouro, cidade, estado, telefone, email, cpf);
                 pfDAO.incluiPessoa(pf);
                 pf.exibir();
@@ -124,6 +126,8 @@ public class Menu {
                 
                 System.out.println("Insira o CNPJ (xxxxxxxxxxx");
                 cnpj = sc.next();
+                
+                sc.close();
                 
                 pj = new PessoaJuridica (seqM, nome, logradouro, cidade, estado, telefone, email, cnpj);
                 pj.exibir(); 
