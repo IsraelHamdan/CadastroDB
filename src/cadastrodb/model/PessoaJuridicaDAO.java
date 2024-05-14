@@ -70,7 +70,7 @@ public class PessoaJuridicaDAO {
         }
         return pessoas;
     }
-    public void exibirPessoasJuridias() throws SQLException {
+    public void exibirPessoasJuridicas() throws SQLException {
         List<PessoaJuridica> pessoas = getPessoasJuridica();
         for (PessoaJuridica pessoa : pessoas) {
             System.out.println("ID: " + pessoa.getId());
@@ -111,7 +111,7 @@ public class PessoaJuridicaDAO {
         }
     }
 
-   public void alterarPessoaJuriica(int idPJ, PessoaJuridica pessoa) throws SQLException {
+   public void alterarPessoaJurdica(int idPJ, PessoaJuridica pessoa) throws SQLException {
             System.out.println(idPJ);
             String query = "UPDATE Pessoas SET Nome = ?, Logradouro = ?, Cidade = ?, Estado = ?, Telefone = ?, Email = ?"
                 + "WHERE idPessoa = ?";
