@@ -62,6 +62,11 @@ public class Menu {
             case 3: 
                 excluirPessoa();
                 break;
+            case 4: 
+                buscarPeloId();
+                break;
+            case 5: 
+               
         }
     }
     
@@ -71,13 +76,14 @@ public class Menu {
         return sc.next().toUpperCase().charAt(0);
     }
     
-    private int questionId(String t, String v) {
-        System.out.printf("Qual o id da pessoa %s que você desja %s",t, v);
-        return Integer.parseInt(sc.nextLine());
+    private int questionId(String tipo, String verbo) {
+        System.out.printf("Qual o id da pessoa %s que você desja %s",tipo, verbo);
+        int id = sc.nextInt();
+        return id;
     }
     
-    private String errorMensage(String v, String t) {
-        String mensage = "Erro ao %s uma pessoa %t" + v + t;
+    private String errorMensage(String verbo, String tipo) {
+        String mensage = "Erro ao %s uma pessoa %t" + verbo + tipo;
         return mensage;
     }
     
@@ -171,9 +177,7 @@ public class Menu {
         switch (res) {
             case 'F':
                 pfDAO.exibirPessoasFisicas();
-                System.out.println("Insira o id da pessoa que deseja alterar");
-                int idPessoaFisica  = Integer.parseInt(sc.next());
-                
+                int idPessoaFisica  = questionId("física", "alterar ");
                 PessoaFisica pf = 
                     pfDAO.getPessoaFisica(idPessoaFisica); 
                 
@@ -208,8 +212,8 @@ public class Menu {
                 break;
             case 'J':
                 pjDAO.exibirPessoasJuridicas();
-                System.out.println("Insira o id da pessoa juridica que você quer alterar");
-                int idPJ = Integer.parseInt(sc.next());
+                
+                int idPJ  = questionId("física", "alterar ");
                 PessoaJuridica pj =  
                     pjDAO.getPessoaJuridica(idPJ); 
                 
@@ -254,7 +258,7 @@ public class Menu {
                     idPessoaFisica= questionId("física", "excluir");
                     pfDAO.exibirPessoasFisicas();
 
-                    pfDAO.excluirPessoa(idPessoaFisica);
+                    pfDAO.excluirPessoaFisica(idPessoaFisica);
                     pfDAO.exibirPessoasFisicas();
                 } catch (SQLException e) {
                     String erro = errorMensage("excluir", "física");
@@ -264,15 +268,38 @@ public class Menu {
             case 'J': 
                 try {
                     idPJ= questionId("jurídica", "excluir");
-                    pjDAO.exibirPessoasJuridicas();
-
                     pjDAO.excluirPessoaJuridica(idPJ);
-                    pfDAO.exibirPessoasFisicas();
                 } catch (SQLException e) {
                     String erro = errorMensage("excluir", "juridica");
                     LOGGER.log(Level.SEVERE, erro + " com o id: " + idPJ, e);
                 }
                         
+        }
+    }
+    
+    public void buscarPeloId() throws  SQLException {
+        char res = question("buscar");
+        int idPessoaFisica = 0;
+        int idPJ = 0;
+        switch (res) {
+            case 'F':
+                try {
+                    idPessoaFisica = questionId("física", "buscar");
+                    pfDAO.exibirPessoaFisica(idPessoaFisica);
+                    break;
+                } catch (SQLException e) {
+                    String erro = errorMensage("buscar", "física");
+                    LOGGER.log(Level.SEVERE, erro + " com o id: " + idPessoaFisica, e);
+                }
+            case 'J': 
+                try {
+                    idPJ = questionId("juridica", "buscar");
+                    pjDAO.exibirPessoaJuridica(idPJ);
+                    break;
+                } catch (SQLException e) {
+                    String erro = errorMensage("buscar", "jurídica");
+                    LOGGER.log(Level.SEVERE, erro + " com o id: " + idPJ, e);
+                }
         }
     }
     

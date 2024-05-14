@@ -34,12 +34,15 @@ public class PessoaFisicaDAO {
             ps.setInt(1, id);
             rs = ps.executeQuery();
             if (rs.next()) {
+                pf.setNome(rs.getString("Nome"));
+                pf.setLogradouro(rs.getString("Logradouro"));
                 pf.setId(rs.getInt("idPessoaFisica"));
                 pf.setCpf(rs.getString("cpf"));
                 pf.setCidade(rs.getString("Logradouro"));
                 pf.setEstado(rs.getString("Estado")); 
                 pf.setTelefone(rs.getString("Telefone")); 
                 pf.setEmail(rs.getString("Email"));
+                
                 return pf;
             }
         } catch (SQLException e) {
@@ -49,7 +52,22 @@ public class PessoaFisicaDAO {
         }
         return null;
     }
-
+    public void exibirPessoaFisica(int idPessoaFisica) throws SQLException {
+          if(idPessoaFisica != 0) {
+              PessoaFisica pf = getPessoaFisica(idPessoaFisica); 
+              if(pf != null) {
+                  System.out.println("CPF: " + pf.getCpf());
+                  System.out.println("Nome: " + pf.getNome());
+                  System.out.println("Logradouro: " + pf.getLogradouro());
+                  System.out.println("Cidade: " + pf.getCidade());
+                  System.out.println("Estado: " + pf.getEstado());
+                  System.out.println("Telefone " + pf.getTelefone());
+                  System.out.println("Email: " + pf.getEmail());
+              } else {
+                  System.out.println("Pessoa não encontrada");
+              }
+          }
+      }
     public List<PessoaFisica> getPessoas() throws SQLException {
         String query = "SELECT PF.idPessoaFisica, PF.CPF, P.Nome, P.Logradouro, P.Cidade, P.Estado, P.Telefone, P.email " +
 	"From PessoasFisicas PF JOIN Pessoas P ON PF.idPessoaFisica = P.idPessoa";
@@ -79,18 +97,24 @@ public class PessoaFisicaDAO {
     
     public void exibirPessoasFisicas() throws SQLException {
         List<PessoaFisica> pessoas = getPessoas();
-        for (PessoaFisica pessoa : pessoas) {
-            System.out.println("ID: " + pessoa.getId());
-            System.out.println("Nome: " + pessoa.getNome());
-            System.out.println("Logradouro: " + pessoa.getLogradouro());
-            System.out.println("Cidade: " + pessoa.getCidade());
-            System.out.println("Estado: " + pessoa.getEstado());
-            System.out.println("Telefone: " + pessoa.getTelefone());
-            System.out.println("Email: " + pessoa.getEmail());
-            System.out.println("------------------------");
+        if(!pessoas.isEmpty()) {
+            for (PessoaFisica pessoa : pessoas) {
+                System.out.println("ID: " + pessoa.getId());
+                System.out.println("Nome: " + pessoa.getNome());
+                System.out.println("Logradouro: " + pessoa.getLogradouro());
+                System.out.println("Cidade: " + pessoa.getCidade());
+                System.out.println("Estado: " + pessoa.getEstado());
+                System.out.println("Telefone: " + pessoa.getTelefone());
+                System.out.println("Email: " + pessoa.getEmail());
+                System.out.println("------------------------");
+            }
+        } else {
+            System.out.println("Id não encontrado!");
         }
-    }
 
+    }
+    
+  
     
      public void incluiPessoa(PessoaFisica pessoa) throws SQLException {
         String queryPessoa = "INSERT INTO Pessoas(idPessoa, Nome, Logradouro, Cidade, Estado, Telefone, Email) VALUES(?,?,?,?,?,?,?)";
@@ -119,14 +143,9 @@ public class PessoaFisicaDAO {
     }
 
     public void alterarPessoaFisica(int idPessoaFisica, PessoaFisica pessoa) throws SQLException {
-            System.out.println(idPessoaFisica);
             String query = "UPDATE Pessoas SET Nome = ?, Logradouro = ?, Cidade = ?, Estado = ?, Telefone = ?, Email = ?"
                 + "WHERE idPessoa = ?";
             try (PreparedStatement ps = connector.getConnection().prepareStatement(query)) {
-
-                System.out.println(pessoa.getNome());
-                System.out.println(idPessoaFisica);
-
                 ps.setString(1, pessoa.getNome());
                 ps.setString(2, pessoa.getLogradouro());
                 ps.setString(3, pessoa.getCidade());
@@ -135,15 +154,13 @@ public class PessoaFisicaDAO {
                 ps.setString(6, pessoa.getEmail()); 
                 ps.setInt(7, pessoa.getId());
                 ps.executeUpdate();
-
-
             } catch (SQLException e) {
                 e.printStackTrace();
             }
      }
 
 
-    public void excluirPessoa(int id) throws SQLException {    
+    public void excluirPessoaFisica(int id) throws SQLException {    
         try(PreparedStatement ps = connector.getConnection().prepareStatement("DELETE FROM PessoasFisicas WHERE idPessoaFisica = ?"); 
             PreparedStatement pfDelete = connector.getConnection().prepareStatement("DELETE FROM Pessoas WHERE idPessoa = ?") ) {
             

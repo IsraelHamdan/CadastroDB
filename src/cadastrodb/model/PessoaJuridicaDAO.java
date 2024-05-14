@@ -33,8 +33,12 @@ public class PessoaJuridicaDAO {
             ps.setInt(1, id);
             rs = ps.executeQuery();
             if (rs.next()) {
-                pj.setId(rs.getInt("idPj"));
                 pj.setCnpj(rs.getString("cnpj"));
+                pj.setNome(rs.getString("Nome"));
+                pj.setLogradouro(rs.getString("Logradouro"));
+                pj.setCidade(rs.getString("Cidade"));
+                pj.setTelefone(rs.getString("Estado"));
+                pj.setEmail(rs.getString("Email"));
                 return pj;
             }
         } catch (SQLException e) {
@@ -43,7 +47,22 @@ public class PessoaJuridicaDAO {
             connector.close();
         }
         return null;
-    } 
+    }
+    
+    public void exibirPessoaJuridica(int idPJ) throws SQLException {
+        if(idPJ != 0) {
+            PessoaJuridica pj = getPessoaJuridica(idPJ);
+            System.out.println("CNPJ" + pj.getCnpj());
+            System.out.println("Nome: " + pj.getNome());
+            System.out.println("Logradouro: " + pj.getLogradouro());
+            System.out.println("Cidade: " + pj.getCidade());
+            System.out.println("Estado: " + pj.getEstado());
+            System.out.println("Telefone " + pj.getTelefone());
+            System.out.println("Email: " + pj.getEmail());
+        } else{
+            System.out.println("Pessoa não encontrada!");
+        }
+    }
     
     public List<PessoaJuridica> getPessoasJuridica() throws SQLException {
         String query = "Select PJ.idPJ, PJ.CNPJ, P.Nome, P.Logradouro, P.Cidade, P.Estado, P.Telefone, P.Email " +
@@ -142,7 +161,7 @@ public class PessoaJuridicaDAO {
             //excluindo da tabela de pessoas 
             ps.setInt(1, id);
             ps.executeUpdate();
-            
+        
             //excluindo da tabela de pessoas juridicas
             pjDelete.setInt(1, id);
             pjDelete.executeUpdate();
