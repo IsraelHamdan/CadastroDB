@@ -13,12 +13,12 @@ public class Menu {
     private PessoaFisica pf; 
     private PessoaJuridica pj;
     
-    private PessoaFisicaDAO pfDAO;
-    private PessoaJuridicaDAO pjDAO;
-    private SequenceManager seq;
+    private final PessoaFisicaDAO pfDAO;
+    private final PessoaJuridicaDAO pjDAO;
+    private final SequenceManager seq;
     
-    private Scanner sc;
-    
+    private final Scanner sc;
+  
     private String nome;
     private String logradouro; 
     private String cidade;
@@ -109,26 +109,28 @@ public class Menu {
                 sequencia = "seq_pessoa";
                 seqM = seq.getValue(sequencia); 
                 
+                sc.nextLine();
+                
                 System.out.println("Insira o nome");
-                nome = sc.next();
+                nome = sc.nextLine();
                 
                 System.out.println("Insira o logradouro");
-                logradouro = sc.next();
+                logradouro = sc.nextLine();
                 
                 System.out.println("Insira a cidade");
-                cidade = sc.next();
+                cidade = sc.nextLine();
                 
                 System.out.println("Insira o estado (SOMENTE A SIGLA");
-                estado = sc.next();
+                estado = sc.nextLine();
                 
                 System.out.println("Insira o telefone (DDD9xxxxxxxx");
-                telefone = sc.next();
+                telefone = sc.nextLine();
                 
                 System.out.println("Insira o email");
-                email = sc.next();
+                email = sc.nextLine();
                 
                 System.out.println("Insira o CNPJ (xxxxxxxxxxx");
-                cnpj = sc.next();
+                cnpj = sc.nextLine();
                 
                 sc.close();
                 
@@ -181,8 +183,8 @@ public class Menu {
                 pjDAO.exibirPessoasJuridias();
                 int idPJ = Integer.parseInt(sc.next());
                 PessoaJuridica pj =  
-                    pjDAO.getPessoaJuridica(idPJ); 
-
+                    pjDAO.getPessoaJuridica(idPJ); // Método para buscar a PessoaFisica pelo ID
+                    
                     System.out.println("Insira o novo nome");
                     nome = sc.next();
                     pj.setNome(nome);
