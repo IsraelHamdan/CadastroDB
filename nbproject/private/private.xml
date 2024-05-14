@@ -12,10 +12,10 @@
     </editor-bookmarks>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Users/Israe/OneDrive/Documentos/desenvolvimento/CadastroDB/src/cadastrodb/model/util/SequenceManager.java</file>
-            <file>file:/C:/Users/Israe/OneDrive/Documentos/desenvolvimento/CadastroDB/src/cadastrodb/model/PessoaJuridicaDAO.java</file>
-            <file>file:/C:/Users/Israe/OneDrive/Documentos/desenvolvimento/CadastroDB/src/cadastrodb/CadastroDBTeste.java</file>
+            <file>file:/C:/Users/Israe/OneDrive/Documentos/desenvolvimento/CadastroDB/src/cadastrodb/model/PessoaFisica.java</file>
+            <file>file:/C:/Users/Israe/OneDrive/Documentos/desenvolvimento/CadastroDB/src/cadastrodb/CadastroDB.java</file>
             <file>file:/C:/Users/Israe/OneDrive/Documentos/desenvolvimento/CadastroDB/src/cadastrodb/model/PessoaFisicaDAO.java</file>
+            <file>file:/C:/Users/Israe/OneDrive/Documentos/desenvolvimento/CadastroDB/src/cadastrodb/Menu.java</file>
         </group>
     </open-files>
 </project-private>

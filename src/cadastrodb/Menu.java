@@ -19,7 +19,6 @@ public class Menu {
     
     private Scanner sc;
     
-    private int id;
     private String nome;
     private String logradouro; 
     private String cidade;
@@ -53,16 +52,20 @@ public class Menu {
             case 1: 
                 inserirPessoa();
                 break;
+            case 2: 
+                alterarPessoa();
+                
         }
     }
+    
     
     private char question(String v) {
         System.out.printf("Você deseja %s uma pessoa física ou jurídica? ", v);
         return sc.next().toUpperCase().charAt(0);
     }
     
-    private int questionId(String v) {
-        System.out.printf("Qual o id da pessoa %s que você desja alterar", v);
+    private int questionId(String t, String v) {
+        System.out.printf("Qual o id da pessoa %s que você desja %s",t, v);
         return Integer.parseInt(sc.nextLine());
     }
     
@@ -136,5 +139,76 @@ public class Menu {
         }
     } 
     
+    public void alterarPessoa() throws SQLException {
+        char res = question("alterar");
+        switch (res) {
+            case 'F':
+                pfDAO.exibirPessoasFisicas();
+                System.out.println("Insira o id da pessoa que deseja alterar");
+                int idPessoaFisica  = Integer.parseInt(sc.next());
+                
+                PessoaFisica pf = 
+                     pfDAO.getPessoaFisica(idPessoaFisica); // Método para buscar a PessoaFisica pelo ID
+
+                    System.out.println("Insira o novo nome");
+                    nome = sc.next();
+                    pf.setNome(nome);
+
+                    System.out.println("Insira o novo logradouro");
+                    logradouro = sc.next();
+                    pf.setLogradouro(logradouro);
+
+                    System.out.println("Insira a nova cidade cidade");
+                    cidade = sc.next();
+                    pf.setCidade(cidade);
+
+                    System.out.println("Insira o novo estado (SOMENTE A SIGLA");
+                    estado = sc.next();
+                    pf.setEstado(estado);
+
+                    System.out.println("Insira o novo telefone (DDD9xxxxxxxx");
+                    telefone = sc.next();
+                    pf.setTelefone(telefone);
+
+                    System.out.println("Insira novo o email");
+                    email = sc.next();
+                    pf.setEmail(email);
+
+                pfDAO.alterarPessoaFisica(idPessoaFisica, pf);
+
+                break;
+            case 'J':
+                pjDAO.exibirPessoasJuridias();
+                int idPJ = Integer.parseInt(sc.next());
+                PessoaJuridica pj =  
+                    pjDAO.getPessoaJuridica(idPJ); 
+
+                    System.out.println("Insira o novo nome");
+                    nome = sc.next();
+                    pj.setNome(nome);
+
+                    System.out.println("Insira o novo logradouro");
+                    logradouro = sc.next();
+                    pj.setLogradouro(logradouro);
+
+                    System.out.println("Insira a nova cidade cidade");
+                    cidade = sc.next();
+                    pj.setCidade(cidade);
+
+                    System.out.println("Insira o novo estado (SOMENTE A SIGLA");
+                    estado = sc.next();
+                    pj.setEstado(estado);
+
+                    System.out.println("Insira o novo telefone (DDD9xxxxxxxx");
+                    telefone = sc.next();
+                    pj.setTelefone(telefone);
+
+                    System.out.println("Insira novo o email");
+                    email = sc.next();
+                    pj.setEmail(email);
+                pjDAO.alterarPessoaJuriica(idPJ, pj);
+                break; 
+        }
+    }
     
 }
