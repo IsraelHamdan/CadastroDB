@@ -150,7 +150,7 @@ public class Menu {
                 int idPessoaFisica  = Integer.parseInt(sc.next());
                 
                 PessoaFisica pf = 
-                     pfDAO.getPessoaFisica(idPessoaFisica); // Método para buscar a PessoaFisica pelo ID
+                    pfDAO.getPessoaFisica(idPessoaFisica); // Método para buscar a PessoaFisica pelo ID
 
                     System.out.println("Insira o novo nome");
                     nome = sc.next();
@@ -175,40 +175,44 @@ public class Menu {
                     System.out.println("Insira novo o email");
                     email = sc.next();
                     pf.setEmail(email);
-
+                    
                 pfDAO.alterarPessoaFisica(idPessoaFisica, pf);
-
+                sc.close();
                 break;
             case 'J':
                 pjDAO.exibirPessoasJuridias();
+                System.out.println("Insira o id da pessoa juridica que você quer alterar");
                 int idPJ = Integer.parseInt(sc.next());
                 PessoaJuridica pj =  
-                    pjDAO.getPessoaJuridica(idPJ); // Método para buscar a PessoaFisica pelo ID
+                    pjDAO.getPessoaJuridica(idPJ); 
+                
+                    sc.nextLine();
                     
                     System.out.println("Insira o novo nome");
-                    nome = sc.next();
+                    nome = sc.nextLine();
                     pj.setNome(nome);
 
                     System.out.println("Insira o novo logradouro");
-                    logradouro = sc.next();
+                    logradouro = sc.nextLine();
                     pj.setLogradouro(logradouro);
 
                     System.out.println("Insira a nova cidade cidade");
-                    cidade = sc.next();
+                    cidade = sc.nextLine();
                     pj.setCidade(cidade);
 
                     System.out.println("Insira o novo estado (SOMENTE A SIGLA");
-                    estado = sc.next();
+                    estado = sc.nextLine();
                     pj.setEstado(estado);
 
                     System.out.println("Insira o novo telefone (DDD9xxxxxxxx");
-                    telefone = sc.next();
+                    telefone = sc.nextLine();
                     pj.setTelefone(telefone);
 
                     System.out.println("Insira novo o email");
-                    email = sc.next();
+                    email = sc.nextLine();
                     pj.setEmail(email);
                 pjDAO.alterarPessoaJuriica(idPJ, pj);
+                sc.close();
                 break; 
         }
     }
