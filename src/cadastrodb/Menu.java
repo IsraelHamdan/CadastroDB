@@ -66,10 +66,10 @@ public class Menu {
                 buscarPeloId();
                 break;
             case 5: 
-               
+               buscarTodos();
+               break;
         }
     }
-    
     
     private char question(String v) {
         System.out.printf("Você deseja %s uma pessoa física ou jurídica? ", v);
@@ -301,6 +301,24 @@ public class Menu {
                     LOGGER.log(Level.SEVERE, erro + " com o id: " + idPJ, e);
                 }
         }
+    }
+    
+    public void buscarTodos() throws SQLException {
+        System.out.println("Você quer buscar todas as pessoas físias ou jurídicas? ");
+        String res = sc.nextLine();
+        try{
+            if(res.equalsIgnoreCase("F")) {
+                pfDAO.exibirPessoasFisicas();
+            } else if (res.equalsIgnoreCase("J")) {
+                pjDAO.exibirPessoasJuridicas();
+            } else {
+                System.out.println("Escolha um tipo valido");
+            }
+        } catch (SQLException e) {
+            LOGGER.log(Level.SEVERE, "Erro ao buscar todas as pessoas físicas do banco", e);
+        }
+
+        
     }
     
 }
