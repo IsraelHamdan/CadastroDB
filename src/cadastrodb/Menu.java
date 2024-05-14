@@ -124,11 +124,12 @@ public class Menu {
                     pf = new PessoaFisica(seqM, nome, logradouro, cidade, estado, telefone, email, cpf);
                     pfDAO.incluiPessoa(pf);
                     pf.exibir();
+                    
                 } catch (SQLException e) {
                     String erro = errorMensage("incluir", "juridica");
                     LOGGER.log(Level.SEVERE, erro, e);
                 }
-
+                break;
             }
             case 'J' -> {
                 try {
@@ -163,11 +164,12 @@ public class Menu {
                     pj = new PessoaJuridica (seqM, nome, logradouro, cidade, estado, telefone, email, cnpj);
                     pj.exibir(); 
                     pjDAO.incluiPessoaJuridica(pj);
+                    
                 } catch (SQLException e) {
                     String erro = errorMensage("incluir", "jurídica");
                     LOGGER.log(Level.SEVERE, erro, e);
                 }
-
+                break;
             }
         }
     } 
@@ -175,76 +177,78 @@ public class Menu {
     public void alterarPessoa() throws SQLException {
         char res = question("alterar");
         switch (res) {
-            case 'F':
+            case 'F' -> {
                 pfDAO.exibirPessoasFisicas();
                 int idPessoaFisica  = questionId("física", "alterar ");
-                PessoaFisica pf = 
-                    pfDAO.getPessoaFisica(idPessoaFisica); 
+                PessoaFisica pf =
+                        pfDAO.getPessoaFisica(idPessoaFisica); 
                 
-                    sc.nextLine();
-                    
-                    System.out.println("Insira o novo nome");
-                    nome = sc.nextLine();
-                    pf.setNome(nome);
-
-                    System.out.println("Insira o novo logradouro");
-                    logradouro = sc.nextLine();
-                    pf.setLogradouro(logradouro);
-
-                    System.out.println("Insira a nova cidade cidade");
-                    cidade = sc.nextLine();
-                    pf.setCidade(cidade);
-
-                    System.out.println("Insira o novo estado (SOMENTE A SIGLA");
-                    estado = sc.nextLine();
-                    pf.setEstado(estado);
-
-                    System.out.println("Insira o novo telefone (DDD9xxxxxxxx");
-                    telefone = sc.nextLine();
-                    pf.setTelefone(telefone);
-
-                    System.out.println("Insira novo o email");
-                    email = sc.nextLine();
-                    pf.setEmail(email);
-                    
+                sc.nextLine();
+                
+                System.out.println("Insira o novo nome");
+                nome = sc.nextLine();
+                pf.setNome(nome);
+                
+                System.out.println("Insira o novo logradouro");
+                logradouro = sc.nextLine();
+                pf.setLogradouro(logradouro);
+                
+                System.out.println("Insira a nova cidade cidade");
+                cidade = sc.nextLine();
+                pf.setCidade(cidade);
+                
+                System.out.println("Insira o novo estado (SOMENTE A SIGLA");
+                estado = sc.nextLine();
+                pf.setEstado(estado);
+                
+                System.out.println("Insira o novo telefone (DDD9xxxxxxxx");
+                telefone = sc.nextLine();
+                pf.setTelefone(telefone);
+                
+                System.out.println("Insira novo o email");
+                email = sc.nextLine();
+                pf.setEmail(email);
+                
                 pfDAO.alterarPessoaFisica(idPessoaFisica, pf);
+                pfDAO.exibirPessoaFisica(idPessoaFisica);
                 sc.close();
-                break;
-            case 'J':
+            }
+            case 'J' -> {
                 pjDAO.exibirPessoasJuridicas();
                 
                 int idPJ  = questionId("física", "alterar ");
-                PessoaJuridica pj =  
-                    pjDAO.getPessoaJuridica(idPJ); 
+                PessoaJuridica pj =
+                        pjDAO.getPessoaJuridica(idPJ); 
                 
-                    sc.nextLine();
-                    
-                    System.out.println("Insira o novo nome");
-                    nome = sc.nextLine();
-                    pj.setNome(nome);
-
-                    System.out.println("Insira o novo logradouro");
-                    logradouro = sc.nextLine();
-                    pj.setLogradouro(logradouro);
-
-                    System.out.println("Insira a nova cidade cidade");
-                    cidade = sc.nextLine();
-                    pj.setCidade(cidade);
-
-                    System.out.println("Insira o novo estado (SOMENTE A SIGLA");
-                    estado = sc.nextLine();
-                    pj.setEstado(estado);
-
-                    System.out.println("Insira o novo telefone (DDD9xxxxxxxx");
-                    telefone = sc.nextLine();
-                    pj.setTelefone(telefone);
-
-                    System.out.println("Insira novo o email");
-                    email = sc.nextLine();
-                    pj.setEmail(email);
+                sc.nextLine();
+                
+                System.out.println("Insira o novo nome");
+                nome = sc.nextLine();
+                pj.setNome(nome);
+                
+                System.out.println("Insira o novo logradouro");
+                logradouro = sc.nextLine();
+                pj.setLogradouro(logradouro);
+                
+                System.out.println("Insira a nova cidade cidade");
+                cidade = sc.nextLine();
+                pj.setCidade(cidade);
+                
+                System.out.println("Insira o novo estado (SOMENTE A SIGLA");
+                estado = sc.nextLine();
+                pj.setEstado(estado);
+                
+                System.out.println("Insira o novo telefone (DDD9xxxxxxxx");
+                telefone = sc.nextLine();
+                pj.setTelefone(telefone);
+                
+                System.out.println("Insira novo o email");
+                email = sc.nextLine();
+                pj.setEmail(email);
                 pjDAO.alterarPessoaJurdica(idPJ, pj);
+                pjDAO.exibirPessoaJuridica(idPJ);
                 sc.close();
-                break; 
+            } 
         }
     }
     
@@ -253,27 +257,31 @@ public class Menu {
         int idPessoaFisica = 0;
         int idPJ = 0;
         switch (res) {
-            case 'F': 
+            case 'F' -> { 
                 try {
-                    idPessoaFisica= questionId("física", "excluir");
                     pfDAO.exibirPessoasFisicas();
+                    idPessoaFisica= questionId("física", "excluir");
 
                     pfDAO.excluirPessoaFisica(idPessoaFisica);
-                    pfDAO.exibirPessoasFisicas();
+                    
                 } catch (SQLException e) {
                     String erro = errorMensage("excluir", "física");
                     LOGGER.log(Level.SEVERE, erro + " com id: " + idPessoaFisica, e);
                 }
+                break;
+            }
               
-            case 'J': 
+            case 'J' -> { 
                 try {
+                    pjDAO.exibirPessoasJuridicas();
                     idPJ= questionId("jurídica", "excluir");
                     pjDAO.excluirPessoaJuridica(idPJ);
                 } catch (SQLException e) {
                     String erro = errorMensage("excluir", "juridica");
                     LOGGER.log(Level.SEVERE, erro + " com o id: " + idPJ, e);
-                }
-                        
+                } 
+                break;
+            }        
         }
     }
     
@@ -282,25 +290,27 @@ public class Menu {
         int idPessoaFisica = 0;
         int idPJ = 0;
         switch (res) {
-            case 'F':
+            case 'F' -> {
                 try {
                     idPessoaFisica = questionId("física", "buscar");
                     pfDAO.exibirPessoaFisica(idPessoaFisica);
-                    break;
+                    
                 } catch (SQLException e) {
                     String erro = errorMensage("buscar", "física");
                     LOGGER.log(Level.SEVERE, erro + " com o id: " + idPessoaFisica, e);
                 }
-            case 'J': 
+            }
+            case 'J' -> { 
                 try {
                     idPJ = questionId("juridica", "buscar");
                     pjDAO.exibirPessoaJuridica(idPJ);
-                    break;
+                    
                 } catch (SQLException e) {
                     String erro = errorMensage("buscar", "jurídica");
                     LOGGER.log(Level.SEVERE, erro + " com o id: " + idPJ, e);
                 }
-        }
+            }
+        }   
     }
     
     public void buscarTodos() throws SQLException {
@@ -317,8 +327,6 @@ public class Menu {
         } catch (SQLException e) {
             LOGGER.log(Level.SEVERE, "Erro ao buscar todas as pessoas físicas do banco", e);
         }
-
-        
     }
     
 }

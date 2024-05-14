@@ -7,6 +7,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Logger;
+import java.util.logging.Level;
 
 public class PessoaFisicaDAO {
     private PessoaFisica pf;
@@ -16,6 +18,7 @@ public class PessoaFisicaDAO {
     private SequenceManager sequence;
 
     private List<PessoaFisica> pessoas;
+    private String error;
   
 
     public PessoaFisicaDAO() {
@@ -25,7 +28,13 @@ public class PessoaFisicaDAO {
         pessoas = new ArrayList<>();
  
     }
-
+    private static final Logger LOGGER = Logger.getLogger(PessoaFisicaDAO.class.getName());
+    
+    private String errorMenssage(String verbo, String especificador) {
+        String mensage = "Erro ao %s : " + verbo + "pessoas fisicas %s banco" + especificador;
+        return mensage;
+    }
+ 
     public PessoaFisica getPessoaFisica(int id) throws SQLException {
         String query = "SELECT PF.idPessoaFisica, PF.CPF, P.Nome, P.Logradouro, P.Cidade, P.Estado, P.Telefone, P.email " +
 	"From PessoasFisicas PF JOIN Pessoas P ON PF.idPessoaFisica = P.idPessoa WHERE P.idPessoa = ?";
@@ -46,14 +55,17 @@ public class PessoaFisicaDAO {
                 return pf;
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            error = errorMenssage("buscar", "no");
+            LOGGER.log(Level.SEVERE, error, e );
         } finally {
             connector.close();
         }
         return null;
     }
+    
     public void exibirPessoaFisica(int idPessoaFisica) throws SQLException {
-          if(idPessoaFisica != 0) {
+        try {
+            if(idPessoaFisica != 0) {
               PessoaFisica pf = getPessoaFisica(idPessoaFisica); 
               if(pf != null) {
                   System.out.println("CPF: " + pf.getCpf());
@@ -67,7 +79,13 @@ public class PessoaFisicaDAO {
                   System.out.println("Pessoa não encontrada");
               }
           }
+        } catch (SQLException e) {
+            error = "Erro %s ao exibir pessoas encontradas no banco";
+            LOGGER.log(Level.SEVERE, error, e);
+        }
+
       }
+    
     public List<PessoaFisica> getPessoas() throws SQLException {
         String query = "SELECT PF.idPessoaFisica, PF.CPF, P.Nome, P.Logradouro, P.Cidade, P.Estado, P.Telefone, P.email " +
 	"From PessoasFisicas PF JOIN Pessoas P ON PF.idPessoaFisica = P.idPessoa";
@@ -87,7 +105,9 @@ public class PessoaFisicaDAO {
 
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            error = errorMenssage("listar", "do"); 
+            LOGGER.log(Level.SEVERE, error, e);
+            
         } finally {
             connector.close();
         }
@@ -114,9 +134,7 @@ public class PessoaFisicaDAO {
 
     }
     
-  
-    
-     public void incluiPessoa(PessoaFisica pessoa) throws SQLException {
+    public void incluiPessoa(PessoaFisica pessoa) throws SQLException {
         String queryPessoa = "INSERT INTO Pessoas(idPessoa, Nome, Logradouro, Cidade, Estado, Telefone, Email) VALUES(?,?,?,?,?,?,?)";
         String queryPf = "INSERT INTO PessoasFisicas(idPessoaFisica, cpf) VALUES(?,?)";
 
@@ -136,7 +154,8 @@ public class PessoaFisicaDAO {
             psPessoaFisica.setString(2, pessoa.getCpf());
             psPessoaFisica.executeUpdate();
         } catch (SQLException e) {
-            e.printStackTrace();
+            error = errorMenssage("incluir", "no");
+            LOGGER.log(Level.SEVERE, error, e);
         } finally {
             connector.close();
         }
@@ -155,7 +174,8 @@ public class PessoaFisicaDAO {
                 ps.setInt(7, pessoa.getId());
                 ps.executeUpdate();
             } catch (SQLException e) {
-                e.printStackTrace();
+                error = errorMenssage("alterar", "no");
+                LOGGER.log(Level.SEVERE, error, e);
             }
      }
 
@@ -172,7 +192,8 @@ public class PessoaFisicaDAO {
             pfDelete.setInt(1, id);
             pfDelete.executeUpdate();
         } catch (SQLException e) {
-            e.printStackTrace();
+            error = errorMenssage("excluir", "do");
+            LOGGER.log(Level.SEVERE, error, e);
         } finally {
             connector.close();
         }
