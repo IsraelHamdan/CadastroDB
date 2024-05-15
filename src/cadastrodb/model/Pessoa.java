@@ -81,10 +81,6 @@ public class Pessoa {
         this.email = email;
     }
 
-    
-
-
-    
     public String exibir() {
         return "Pessoa{" + 
                 "id=" + id + 

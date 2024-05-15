@@ -1,8 +1,12 @@
 package cadastrodb.model.util;
+import cadastrodb.model.PessoaFisicaDAO;
 import java.sql.*;
 import java.util.Properties;
+import java.util.logging.Logger;
+import java.util.logging.Level;
 
 public class ConectorDB {
+    private static final Logger LOGGER = Logger.getLogger(PessoaFisicaDAO.class.getName());
     private static final String URL = "jdbc:sqlserver://localhost:1433;databaseName=loja;encrypt=true;trustServerCertificate=true" ; 
     private static final String USERNAME = "loja";
     private static final String SENHA = "loja";
@@ -19,21 +23,36 @@ public class ConectorDB {
             props.setProperty("trustServerCertificate", "true");
             conection = DriverManager.getConnection(URL, props);    
         } catch (ClassNotFoundException | SQLException e) {
-            e.printStackTrace();
+            LOGGER.log(Level.SEVERE, "erro ao conectar com o banco de dados", e);
         }
     }
         
     public static Connection getConnection() throws SQLException {
-        return DriverManager.getConnection(URL, USERNAME, SENHA);
+        try {
+            return DriverManager.getConnection(URL, USERNAME, SENHA);
+        } catch (SQLException e) {
+            LOGGER.log(Level.SEVERE, "error ao realizar a conexão do driver com o banco", e);
+        }
+        return null;
     }
     
     public PreparedStatement getPreparedStatement(String sql) throws SQLException {
-        return conection.prepareStatement(sql);
+        try {
+            return conection.prepareStatement(sql);
+        } catch (SQLException e) {
+            LOGGER.log(Level.SEVERE, "erro ao usar o preparedStatement na classe conectorDB: " , e);
+        }
+        return null;
     }
     
     public ResultSet getSelected(String sql) throws SQLException {
-        Statement statement = conection.createStatement();
-        return statement.executeQuery(sql);
+        try {
+            Statement statement = conection.createStatement();
+            return statement.executeQuery(sql);
+        } catch (SQLException e) {
+            LOGGER.log(Level.SEVERE, "erro ao definir o ResultSet: ", e);
+        }
+        return null;
     }
     
     // fecha o PreparedStatement
@@ -43,7 +62,7 @@ public class ConectorDB {
                ps.close();
            }
         } catch (SQLException e) {
-            e.printStackTrace();
+            LOGGER.log(Level.SEVERE, "erro ao fechar o PreparedStatement: ", e);
         } 
     }
     // metodo close para fechar o result
@@ -51,7 +70,7 @@ public class ConectorDB {
         try {
             if(rs != null && !rs.isClosed()) rs.clearWarnings();
         } catch (SQLException e) {
-            e.printStackTrace();
+            LOGGER.log(Level.SEVERE, "erro ao fechar o ResultSet: ", e);
         }
     }
     
@@ -61,7 +80,7 @@ public class ConectorDB {
                 conection.close();
             } 
         } catch (SQLException e) {
-            e.printStackTrace();
+            LOGGER.log(Level.SEVERE, "erro ao fechar o Connection: ", e);
         }
     }
 }

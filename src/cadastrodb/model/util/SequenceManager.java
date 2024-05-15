@@ -12,7 +12,7 @@ public class SequenceManager {
         if(rs.next()) {
             return rs.getInt(1);
         } else {
-            throw new SQLException("erro: n tem valor de sequencia" + sequenceName);
+            throw new SQLException("erro: Não tem valor de sequencia" + sequenceName);
         }
         
     }

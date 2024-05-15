@@ -17,8 +17,7 @@ public class PessoaFisicaDAO {
 
     private List<PessoaFisica> pessoas;
     private String error;
-  
-
+    
     public PessoaFisicaDAO() {
         connector = new ConectorDB();
         pf = new PessoaFisica();
@@ -183,9 +182,11 @@ public class PessoaFisicaDAO {
      }
 
 
-    public void excluirPessoa(int id) throws SQLException {    
-        try(PreparedStatement ps = connector.getConnection().prepareStatement("DELETE FROM PessoasFisicas WHERE idPessoaFisica = ?"); 
-            PreparedStatement pfDelete = connector.getConnection().prepareStatement("DELETE FROM Pessoas WHERE idPessoa = ?") ) {
+    public void excluirPessoa(int id) throws SQLException {   
+        String queryDeletepf = "DELETE FROM PessoasFisicas WHERE idPessoaFisica = ?";
+        String queryDeletePs = "DELETE FROM Pessoas WHERE idPessoa = ?";
+        try(PreparedStatement ps = connector.getConnection().prepareStatement(queryDeletepf); 
+            PreparedStatement pfDelete = connector.getConnection().prepareStatement(queryDeletePs)) {
             
             //excluindo da tabela de pessoas 
             ps.setInt(1, id);

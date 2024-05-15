@@ -5,10 +5,8 @@ import cadastrodb.model.PessoaFisicaDAO;
 import cadastrodb.model.PessoaJuridica;
 import cadastrodb.model.PessoaJuridicaDAO;
 import cadastrodb.model.util.SequenceManager;
-
-
 import java.sql.SQLException;
-import java.util.List;
+
 
 public class CadastroDBTeste {
     
@@ -31,8 +29,8 @@ public class CadastroDBTeste {
         String sequencia = "seq_pessoa";
         int seqM = seq.getValue(sequencia);
         
-        pf = new PessoaFisica(seqM, "Natalia", "condominio", "Maracaes", "BA", "73987654321", "Natalia@gmail.com", 
-                "41258099500");
+        pf = new PessoaFisica(seqM, "Sérgio", "Apto", "Curitiba", "PR", "41987654321", "Sergio@gmail.com", 
+                "15458679687");
         pfDAO.incluiPessoa(pf);
         pfDAO.exibirPessoaFisica(seqM);
     }
@@ -42,7 +40,7 @@ public class CadastroDBTeste {
         int seqM = seq.getValue(sequencia);
         
         pj = new PessoaJuridica(seqM, "Bar do João  ", "Avenida", "Jequié", "BA", "7335432100", 
-                "JoaooDa51@gmail.com", "62221978099");
+                "JoaooDa51@gmail.com", "66852279669");
         pjDAO.incluirPessoa(pj);
         pjDAO.exibirPessoaJuridica(seqM);
     }
@@ -60,12 +58,12 @@ public class CadastroDBTeste {
     }
     
     private void testeDeAlteracao() throws SQLException {
-       pf.setNome("Lorena"); 
-       pf.setLogradouro("Condominio");
-       pf.setCidade("Maracaes");
-       pf.setEstado("BA");
-       pf.setTelefone("73987654321");
-       pf.setEmail("lorena@gmail.com");
+       pf.setNome("Flávio"); 
+       pf.setLogradouro("Apto");
+       pf.setCidade("Curitiba");
+       pf.setEstado("PR");
+       pf.setTelefone("41987654321");
+       pf.setEmail("Favin@gmail.com");
        pfDAO.alterarPessoa(pf.getId(),pf);
        pfDAO.exibirPessoaFisica(pf.getId());
        
@@ -91,15 +89,24 @@ public class CadastroDBTeste {
     }
     
     public void run( ) throws SQLException {
-        testeDeInclusao(); 
-        testeDeAlteracao();
-        buscaPessoaFisica(pf);
-        testeDeExclusao();
+//        System.out.println("========Inserindo=======");
+//        testeDeInclusao(); 
+//        System.out.println("========Alterando========");
+//        testeDeAlteracao();
+//        System.out.println("========Buscando========");
+//        buscaPessoaFisica(pf);
+//        System.out.println("========Exluindo========");
+//        testeDeExclusao();
+//        
+        System.out.println("========Inserindo PJ=======");
         testeDeInclusaoDaPessoaJuridica();
-        testeDeAlteracaoDaPessoaJuridica();
-        buscaPessoaJuridica();
-        testeDeExclusaoDaPessoaJuridica();
-        
+//        System.out.println("========Alterando PJ========");
+//        testeDeAlteracaoDaPessoaJuridica();
+//        System.out.println("========Buscando PJ========");
+//        buscaPessoaJuridica();
+//        System.out.println("========Exluindo PJ========");
+//        testeDeExclusaoDaPessoaJuridica();
+//        System.out.println("=========TESTES FINALIZADOS========");
     }
     
     public static void main(String[] args) throws SQLException {
