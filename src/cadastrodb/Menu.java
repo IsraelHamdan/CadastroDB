@@ -54,7 +54,7 @@ public class Menu {
         int option = Integer.parseInt(sc.nextLine());
         switch (option) {
             case 0: break;
-            case 1:  inserirPessoa(); break;
+            case 1: inserirPessoa(); break;
             case 2: alterarPessoa(); break;
             case 3: excluirPessoa(); break;
             case 4: buscarPeloId(); break;
@@ -109,9 +109,7 @@ public class Menu {
 
                     System.out.println("Insira o cpf");
                     cpf = sc.nextLine();
-
                     
-
                     pf = new PessoaFisica(seqM, nome, logradouro, cidade, estado, telefone, email, cpf);
                     pfDAO.incluiPessoa(pf);
                     pf.exibir();
@@ -149,12 +147,10 @@ public class Menu {
 
                     System.out.println("Insira o CNPJ (xxxxxxxxxxx");
                     cnpj = sc.nextLine();
-
-                    sc.close();
-
-                    pj = new PessoaJuridica (seqM, nome, logradouro, cidade, estado, telefone, email, cnpj);
-                    pj.exibir(); 
-                    pjDAO.incluirPessoa(pj);
+                pj = new PessoaJuridica (seqM, nome, logradouro, cidade, estado, telefone, email, cnpj);
+                pj.exibir(); 
+                pjDAO.incluirPessoa(pj);
+                    
                     
                 } catch (SQLException e) {
                     String erro = errorMensage("incluir", "jurídica");
