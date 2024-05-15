@@ -1,7 +1,6 @@
 package cadastrodb.model;
 
 import cadastrodb.model.util.ConectorDB;
-import cadastrodb.model.util.SequenceManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -14,15 +13,13 @@ public class PessoaFisicaDAO {
     private PessoaFisica pf;
 
     private ResultSet rs;
-    private ConectorDB connector;
-    private SequenceManager sequence;
+    private final ConectorDB connector;
 
     private List<PessoaFisica> pessoas;
     private String error;
   
 
     public PessoaFisicaDAO() {
-        sequence = new SequenceManager();
         connector = new ConectorDB();
         pf = new PessoaFisica();
         pessoas = new ArrayList<>();
@@ -35,7 +32,7 @@ public class PessoaFisicaDAO {
         return mensage;
     }
  
-    public PessoaFisica getPessoaFisica(int id) throws SQLException {
+    public PessoaFisica getPessoa(int id) throws SQLException {
         String query = "SELECT PF.idPessoaFisica, PF.CPF, P.Nome, P.Logradouro, P.Cidade, P.Estado, P.Telefone, P.email " +
 	"From PessoasFisicas PF JOIN Pessoas P ON PF.idPessoaFisica = P.idPessoa WHERE P.idPessoa = ?";
         try (PreparedStatement ps = connector.getConnection() 
@@ -66,7 +63,7 @@ public class PessoaFisicaDAO {
     public void exibirPessoaFisica(int idPessoaFisica) throws SQLException {
         try {
             if(idPessoaFisica != 0) {
-              PessoaFisica pf = getPessoaFisica(idPessoaFisica); 
+              PessoaFisica pf = getPessoa(idPessoaFisica); 
               if(pf != null) {
                   System.out.println("CPF: " + pf.getCpf());
                   System.out.println("Nome: " + pf.getNome());
@@ -115,22 +112,28 @@ public class PessoaFisicaDAO {
         return pessoas;
     }
     
-    public void exibirPessoasFisicas() throws SQLException {
-        List<PessoaFisica> pessoas = getPessoas();
-        if(!pessoas.isEmpty()) {
-            for (PessoaFisica pessoa : pessoas) {
-                System.out.println("ID: " + pessoa.getId());
-                System.out.println("Nome: " + pessoa.getNome());
-                System.out.println("Logradouro: " + pessoa.getLogradouro());
-                System.out.println("Cidade: " + pessoa.getCidade());
-                System.out.println("Estado: " + pessoa.getEstado());
-                System.out.println("Telefone: " + pessoa.getTelefone());
-                System.out.println("Email: " + pessoa.getEmail());
-                System.out.println("------------------------");
+    public void exibirPessoasFisicas() throws SQLException{
+        try {
+            List<PessoaFisica> pessoas = getPessoas();
+            if(!pessoas.isEmpty()) {
+                for (PessoaFisica pessoa : pessoas) {
+                    System.out.println("ID: " + pessoa.getId());
+                    System.out.println("Nome: " + pessoa.getNome());
+                    System.out.println("Logradouro: " + pessoa.getLogradouro());
+                    System.out.println("Cidade: " + pessoa.getCidade());
+                    System.out.println("Estado: " + pessoa.getEstado());
+                    System.out.println("Telefone: " + pessoa.getTelefone());
+                    System.out.println("Email: " + pessoa.getEmail());
+                    System.out.println("------------------------");
+                }
+            } else {
+                System.out.println("Id não encontrado!");
             }
-        } else {
-            System.out.println("Id não encontrado!");
+        } catch (SQLException e) {
+            error = errorMenssage("exibir","do");
+            LOGGER.log(Level.SEVERE, error,  e);
         }
+
 
     }
     
@@ -161,7 +164,7 @@ public class PessoaFisicaDAO {
         }
     }
 
-    public void alterarPessoaFisica(int idPessoaFisica, PessoaFisica pessoa) throws SQLException {
+    public void alterarPessoa(int idPessoaFisica, PessoaFisica pessoa) throws SQLException {
             String query = "UPDATE Pessoas SET Nome = ?, Logradouro = ?, Cidade = ?, Estado = ?, Telefone = ?, Email = ?"
                 + "WHERE idPessoa = ?";
             try (PreparedStatement ps = connector.getConnection().prepareStatement(query)) {
@@ -180,7 +183,7 @@ public class PessoaFisicaDAO {
      }
 
 
-    public void excluirPessoaFisica(int id) throws SQLException {    
+    public void excluirPessoa(int id) throws SQLException {    
         try(PreparedStatement ps = connector.getConnection().prepareStatement("DELETE FROM PessoasFisicas WHERE idPessoaFisica = ?"); 
             PreparedStatement pfDelete = connector.getConnection().prepareStatement("DELETE FROM Pessoas WHERE idPessoa = ?") ) {
             

@@ -1,8 +1,6 @@
 
 package cadastrodb;
-
 import java.sql.SQLException;
-
 
 public class CadastroDB {
     private static Menu menu = new Menu(); 

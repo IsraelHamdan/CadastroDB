@@ -7,9 +7,11 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.sql.PreparedStatement;
-
+import java.util.logging.Logger;
+import java.util.logging.Level;
 
 public class PessoaJuridicaDAO {
+    private static final Logger LOGGER = Logger.getLogger(PessoaFisicaDAO.class.getName());
     private PessoaJuridica pj; 
     
     private ResultSet  rs; 
@@ -25,7 +27,7 @@ public class PessoaJuridicaDAO {
         pessoas = new ArrayList<>();
     }
     
-    public PessoaJuridica getPessoaJuridica(int id) throws SQLException {
+    public PessoaJuridica getPessoa(int id) throws SQLException {
         String query = "Select PJ.idPJ, PJ.CNPJ, P.Nome, P.Logradouro, P.Cidade, P.Estado, P.Telefone, P.Email " +
 	"From PessoasJuridicas PJ JOIN Pessoas P ON PJ.idPJ = P.idPessoa WHERE idPJ = ?";
         try (PreparedStatement ps = connector.getConnection()
@@ -51,7 +53,7 @@ public class PessoaJuridicaDAO {
     
     public void exibirPessoaJuridica(int idPJ) throws SQLException {
         if(idPJ != 0) {
-            PessoaJuridica pj = getPessoaJuridica(idPJ);
+            PessoaJuridica pj = getPessoa(idPJ);
             System.out.println("CNPJ" + pj.getCnpj());
             System.out.println("Nome: " + pj.getNome());
             System.out.println("Logradouro: " + pj.getLogradouro());
@@ -64,7 +66,7 @@ public class PessoaJuridicaDAO {
         }
     }
     
-    public List<PessoaJuridica> getPessoasJuridica() throws SQLException {
+    public List<PessoaJuridica> getPessoas() throws SQLException {
         String query = "Select PJ.idPJ, PJ.CNPJ, P.Nome, P.Logradouro, P.Cidade, P.Estado, P.Telefone, P.Email " +
 	"From PessoasJuridicas PJ JOIN Pessoas P ON PJ.idPJ = P.idPessoa";
         
@@ -90,7 +92,7 @@ public class PessoaJuridicaDAO {
         return pessoas;
     }
     public void exibirPessoasJuridicas() throws SQLException {
-        List<PessoaJuridica> pessoas = getPessoasJuridica();
+        List<PessoaJuridica> pessoas = getPessoas();
         for (PessoaJuridica pessoa : pessoas) {
             System.out.println("ID: " + pessoa.getId());
             System.out.println("Nome: " + pessoa.getNome());
@@ -104,7 +106,7 @@ public class PessoaJuridicaDAO {
     }
 
     
-        public void incluiPessoaJuridica(PessoaJuridica pessoa) throws SQLException {
+   public void incluirPessoa(PessoaJuridica pessoa) throws SQLException {
         String queryPessoa = "INSERT INTO Pessoas(idPessoa, Nome, Logradouro, Cidade, Estado, Telefone, Email) VALUES(?,?,?,?,?,?,?)";
         String queryCnpj = "INSERT INTO PessoasJuridicas(idPJ, CNPJ) VALUES(?,?)";
 
@@ -130,15 +132,11 @@ public class PessoaJuridicaDAO {
         }
     }
 
-   public void alterarPessoaJurdica(int idPJ, PessoaJuridica pessoa) throws SQLException {
-            System.out.println(idPJ);
+   public void alterarPessoa(int idPJ, PessoaJuridica pessoa) throws SQLException {
+            
             String query = "UPDATE Pessoas SET Nome = ?, Logradouro = ?, Cidade = ?, Estado = ?, Telefone = ?, Email = ?"
                 + "WHERE idPessoa = ?";
             try (PreparedStatement ps = connector.getConnection().prepareStatement(query)) {
-
-                System.out.println(pessoa.getNome());
-                System.out.println(idPJ);
-
                 ps.setString(1, pessoa.getNome());
                 ps.setString(2, pessoa.getLogradouro());
                 ps.setString(3, pessoa.getCidade());
@@ -150,11 +148,11 @@ public class PessoaJuridicaDAO {
 
 
             } catch (SQLException e) {
-                e.printStackTrace();
+                LOGGER.log(Level.SEVERE, "erro ao alterar pessoa juridica",  e);
             }
      }
     
-    public void excluirPessoaJuridica(int id) throws SQLException {
+    public void excluirPessoa(int id) throws SQLException {
         try(PreparedStatement ps = connector.getConnection().prepareStatement("DELETE FROM PessoasJuridicas WHERE idPj = ?"); 
             PreparedStatement pjDelete = connector.getConnection().prepareStatement("DELETE FROM Pessoas WHERE idPessoa = ?") ) {
             
